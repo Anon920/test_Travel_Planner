@@ -2,10 +2,10 @@ from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import Base, engine, get_db
-from app.external_api import get_word_by_id
+from app.external_api import get_artwork_by_id
 from app.models import TravelProject, ProjectPlace
 from app.schemas import TravelProjectCreate, TravelProjectRead, TravelProjectUpdate, ProjectPlaceRead, \
-    ProjectPlaceCreate
+    ProjectPlaceCreate, ProjectPlaceUpdate
 
 app = FastAPI(title="Travel Planner API")
 
@@ -91,7 +91,7 @@ def add_place_to_project(project_id: int, place_data: ProjectPlaceCreate, db: Se
     if existing_place:
         raise HTTPException(status_code=400, detail="This place already exists in the project")
 
-    work = get_word_by_id(place_data.external_id)
+    work = get_artwork_by_id(place_data.external_id)
 
     if not work:
         raise HTTPException(status_code=400, detail="Place not found in external API")
