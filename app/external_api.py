@@ -8,7 +8,7 @@ def get_artwork_by_id(external_id: int):
         response = requests.get(url, timeout=10)
         print("External API status:", response.status_code)
         print("External API response:", response.text[:500])
-    except requests.RequestException:
+    except requests.RequestException as error:
         print("External API error:", error)
         return None
 
