@@ -9,9 +9,9 @@ class TravelProject(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
-    description = Column(String)
-    start_date = Column(Date)
-    is_closed = Column(Boolean, default=False)
+    description = Column(String, nullable=True)
+    start_date = Column(Date, nullable=True)
+    is_completed = Column(Boolean, default=False)
 
     places = relationship("ProjectPlace", back_populates="project")
 
@@ -19,11 +19,11 @@ class ProjectPlace(Base):
     __tablename__ = "project_places"
 
     id = Column(Integer, primary_key=True, index=True)
-    project_id = Column(Integer, ForeignKey('travel_projects.id'))
-    external_id = Column(Integer)
-    title = Column(String)
-    notes = Column(String)
-    visited = Column(Boolean)
+    project_id = Column(Integer, ForeignKey("travel_projects.id"), nullable=False)
+    external_id = Column(Integer, nullable=False)
+    title = Column(String, nullable=False)
+    notes = Column(String, nullable=True)
+    visited = Column(Boolean, default=False)
 
-    places = relationship("TravelProject", back_populates="places")
+    project = relationship("TravelProject", back_populates="places")
 
