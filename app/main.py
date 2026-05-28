@@ -63,6 +63,21 @@ def delete_project(project_id: int, db: Session = Depends(get_db)):
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
 
+    visited_places = (
+        db.query(ProjectPlace)
+        .filter(
+            ProjectPlace.project_id == project_id,
+            ProjectPlace.visited == True,
+        )
+        .first()
+    )
+
+    if visited_places:
+        raise HTTPException(
+            status_code=400,
+            detail="Cannot delete project with visited places",
+        )
+
     db.delete(project)
     db.commit()
 
