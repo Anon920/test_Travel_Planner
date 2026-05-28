@@ -22,3 +22,25 @@ class TravelProjectRead(TravelProjectBase):
     is_completed: bool
 
     model_config = ConfigDict(from_attributes=True)
+
+class ProjectPlace(BaseModel):
+    external_id: int
+    notes: Optional[str]
+
+class ProjectPlaceCreate(ProjectPlace):
+    pass
+
+class ProjectPlaceUpdate(ProjectPlace):
+    notes: Optional[str] = None
+    visited: Optional[bool] = None
+
+class ProjectPlaceRead(ProjectPlace):
+    id: int
+    project_id: int
+    external_id: int
+    title: str
+    notes: Optional[str] = None
+    visited: bool
+
+    model_config = ConfigDict(from_attributes=True)
+
